@@ -5,7 +5,7 @@ categories: spring
 tags: spring, spring core
 ---
 
-**Spring Core**
+<b>Spring Core</b>
 
 Spring FrameWork Documentation
 Core - IoC container, Events, Resources, i18n, Validation, Data Binding, Type Conversion, SpEL, AOP
@@ -51,9 +51,27 @@ IoC의 기능을 가지고 있으면서도, EventPublisher, EnviromentCapable, H
 ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 파일, 웹에 있는 파일 등을 리소스라고 하는데 이것들을 읽어오는 기능), ResourcePatternResolver 기능도 가지고 있다.
 빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스.
 
- 
-작성중...
-  
+대표적인 ApplicationContext와 해당 ApplicationContext가 가지고 있는 Bean 설정파일
+- ClassPathXmlApplicationContext(XML)
+- AnnotationConfigApplicationContext(Java)
+
+@Autowired
+
+1. 생성자 - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함
+2. 세터
+3. 필드
+
+빈 라이프사이클
+- 빈 포스트 프로세서라는 라이프사이클 인터페이스의 구현체에 의해 동작
+- 빈 포스트 프로세서 ? 
+	- 빈 이니셜라이즈 라이프사이클 이전 혹은 이후에 작업을 할수있는 또다른 라이프사이클 콜백
+
+@PostConstruct
+
+빈 이니셜라이즈 전에 
+AutoWiredSnnotationBeanPostProcessor
+라는 클래스가 
+빈을 찾아서 주입해준다!!  
 
 
 
