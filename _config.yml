@@ -81,7 +81,8 @@ plugins:
   - jekyll-redirect-from
 
 #Collections
-#collections:
+collections:
+
 
 
     # Front Matter Defaults
