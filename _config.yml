@@ -21,7 +21,7 @@ title: "hanbyul9's blog"
 description: "기록하는 블로그.."
 baseurl: ""# the subpath of your site, e.g. "/blog"
 url: "https://hanbyul9.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-logo: # path of site logo, e.g. "/images/logo.png"
+logo: "/images/byul.png"# path of site logo, e.g. "/images/logo.png"
 date_format: "%B %-d, %Y"
 read_time: # reading time estimates, e.g. true
 words_per_minute: # 200
@@ -55,7 +55,7 @@ feed:
 # paginate_path: /page:num/
 
 # Search
-search_full_content: false # can have performance implications for large sites
+search_full_content: true # can have performance implications for large sites
 
 # Taxonomy pages
 # category_archive_path: "/categories/#"
@@ -92,7 +92,7 @@ defaults:
 # Site Author
 author:
   name: hanbyul9
-  picture: 
+  picture: /images/byul.png
   email: beammeupplzz@gmail.com
 #  twitter:
 #  links:
