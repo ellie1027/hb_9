@@ -2,8 +2,8 @@
 title: "Spring Core"
 date: 2020-10-14 
 categories: spring
-tags: spring, spring core
 ---
+스프링 프레임워크 중에서도, 코어 라이브러리를 공부한다.
 
 <b>Spring Core</b>
 
