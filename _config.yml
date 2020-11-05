@@ -25,8 +25,8 @@ navigation:
     url: /
   - name: About
     url: /about
-  - name: Categories
-    url: /categories
+  - name: Archive
+    url: /archive
   - name: Github
     url: https://github.com/hanbyul9
 
