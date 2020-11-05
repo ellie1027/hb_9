@@ -4,11 +4,16 @@ title: About
 permalink: /about/
 ---
 
-Hello, My name is April
+Hello, My name is Ellie :-)
 
 ### More Information
 
-A place to include any other types of information that you'd like to include about yourself.
+Junior Web Developer
+Enjoying Learning
+Steep Learning Curve
+Coffee Addict
+Cat Lovers...
+That's it :-)
 
 ### Contact me
 
