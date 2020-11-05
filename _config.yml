@@ -2,7 +2,6 @@
 # This file contains configuration flags to customize your site
 #
 
-remote_theme: aweekj/kiko-now
 # Name of your site (displayed in the header)
 name: Learning Never Ends
 
