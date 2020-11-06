@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "RestApi + Ajax + Jwt Token을 이용한 Spring Security 구축  (1) 의존성 추가 및 기본 설정"
+title: "Spring Framework + RestApi + Ajax + Jwt Token + Spring Security (1)"
 tags: [security]
 comments: true
 ---
 
-현재 진행중인 토이 프로젝트에서 로그인/회원가입을 위하여 스프링 시큐리티를 사용하기로 하였다. 구글링을 통하여 블로그 포스팅, 책 등을 뒤져봤지만 전체적인 흐름이 눈에 
-들어오지 않아서 일단 유투브에서 강의를 찾아 듣고 프로젝트에 적용해보았다.<br>
+##이 포스팅에서는...
+현재 진행중인 토이 프로젝트에서 로그인/회원가입을 위하여 스프링 시큐리티를 사용하기로 하였다. 
 <br>
 그런데 내가 하고 있는 프로젝트는 스프링 5.2.7 버전이었는데, 참고 할 만한 좋은 글들이 전부 스프링 부트를 기준으로 쓰여져서, 레퍼런스 찾기가 쉽지 않았다.<br>
 (다음 프로젝트는 무조건 부트로...)<br>
@@ -15,8 +15,15 @@ comments: true
 확실히 java configuration 이 개발적인 면에서 좀더 활용도가 높고, 확장 가능성이 큰 것 같다.<br>(spring 3.0 이상부터 java 설정을 제공함)
 <br>
 <br>
-따라서 이 포스팅 시리즈에서는 기본적인 java configuration 부터 시작하여 스프링 시큐리티의 기본 설정, jwt를 이용한 토큰 기반 인증을 구현하는 법을 다룰 것이다.<br>
-<br>
+따라서 이 포스팅 시리즈에서는 
+1) java configuration + spring security configuration
+2) spring security란?  
+3) spring security를 이용한 여러 방법
+4) csrf 방지
+4) jwt를 이용한 토큰 기반 인증
+등을 다룰 것이다.
+<br><br>
+
 ## 1) 의존성 추가하기 
 <br>
 먼저 현재 사용하고 있는 스프링 버전에 맞춰 의존성을 추가해준다. <br>
@@ -104,7 +111,7 @@ public class RootConfig {
 
 ```java
 @EnableWebMvc
-@ComponentScan(basePackages= {"kr.ko.ym"})
+@ComponentScan(basePackages= {"your packages"})
 public class ServletConfig implements WebMvcConfigurer {
 
     @Override
