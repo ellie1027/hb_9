@@ -8,11 +8,11 @@ Hello, My name is Ellie :-)
 
 ### More Information
 
-Junior Web Developer
-Enjoying Learning
-Steep Learning Curve
-Coffee Addict
-Cat Lovers...
+Junior Web Developer<br>
+Enjoying Learning<br>
+Steep Learning Curve<br>
+Coffee Addict<br>
+Cat Lovers...<br>
 That's it :-)
 
 ### Contact me
