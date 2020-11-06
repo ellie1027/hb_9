@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "restapi + ajax + jwt + spring security (1) java configuration"
+title: "restapi + ajax + jwt + spring security (1)"
 tags: [security]
 comments: true
 ---
 
-## 0. 기본 설명
+## 1. Java Configuration
 
-> ### 프로젝트 환경
+> 프로젝트 환경
 > version : spring 5.2.7<br>
 > jdk : java 1.8<br>
 > ide : intellij<br>
@@ -15,18 +15,17 @@ comments: true
 > build : maven<br>
 <br>
 
-### 목차
-1) <mark>java configuration</mark>
-2) spring security란?  
-3) spring security configuration
-4) spring security - basic authentication, form based authentication
-5) spring security - csrf
-6) spring security - jwt toekn 
+### 시리즈 목차
+1) <mark>java configuration</mark><br>
+2) spring security란?<br>  
+3) spring security configuration<br>
+4) spring security - basic authentication, form based authentication<br>
+5) spring security - csrf<br>
+6) spring security - jwt toekn<br> 
 <br><br>
 
 ### java configuration란?
-기존 xml기반 설정 파일을 java 설정으로 바꾸는 것이다.<br>
-스프링 3.2 버전부터 제공하며 확장성, 활용성 등이 기존 xml 기반 설정보다 뛰어나기 때문에 개발자들이 선호한다.<br>
+기존 xml기반 설정 파일을 java 설정으로 바꾸는 것이다. 스프링 3.2 버전부터 제공하며 확장성, 활용성 등이 뛰어나기 때문에 개발자들이 선호한다.
 xml 기반으로 설정 파일을 작성하는 것과 크게 다를 것은 없다. 그냥 똑같은 설정인데 언어가 java로 바뀌었을 뿐이다.<br>
 <br><br>
 ### spring framework 구동 순서
