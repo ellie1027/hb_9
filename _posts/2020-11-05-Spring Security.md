@@ -1,64 +1,41 @@
 ---
 layout: post
-title: "Spring Framework + RestApi + Ajax + Jwt Token + Spring Security (1)"
+title: "restapi + ajax + jwt + spring security (1) java configuration"
 tags: [security]
 comments: true
 ---
 
-##이 포스팅에서는...
-현재 진행중인 토이 프로젝트에서 로그인/회원가입을 위하여 스프링 시큐리티를 사용하기로 하였다. 
+## 0. 기본 설명
+
+> ### 프로젝트 환경
+> version : spring 5.2.7<br>
+> jdk : java 1.8<br>
+> ide : intellij<br>
+> was : tomcat 8.5<br>
+> build : maven<br>
 <br>
-그런데 내가 하고 있는 프로젝트는 스프링 5.2.7 버전이었는데, 참고 할 만한 좋은 글들이 전부 스프링 부트를 기준으로 쓰여져서, 레퍼런스 찾기가 쉽지 않았다.<br>
-(다음 프로젝트는 무조건 부트로...)<br>
-<br>
-또, 기존 프로젝트는 xml configuration 기반으로 진행하고 있었는데, spring security 설정을 java로 하면서 java configuration 기반으로 아예 바꿨다.<br>
-확실히 java configuration 이 개발적인 면에서 좀더 활용도가 높고, 확장 가능성이 큰 것 같다.<br>(spring 3.0 이상부터 java 설정을 제공함)
-<br>
-<br>
-따라서 이 포스팅 시리즈에서는 
-1) java configuration + spring security configuration
+
+### 목차
+1) <mark>java configuration</mark>
 2) spring security란?  
-3) spring security를 이용한 여러 방법
-4) csrf 방지
-4) jwt를 이용한 토큰 기반 인증
-등을 다룰 것이다.
+3) spring security configuration
+4) spring security - basic authentication, form based authentication
+5) spring security - csrf
+6) spring security - jwt toekn 
 <br><br>
 
-## 1) 의존성 추가하기 
-<br>
-먼저 현재 사용하고 있는 스프링 버전에 맞춰 의존성을 추가해준다. <br>
-만약 스프링 부트를 사용하고 있다면 버전 관리의 필요성이 없지만 그렇지 않다면 버전 관리는 매우 중요하다.<br>
-
-```xml
-<!-- spring security -->
-    <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-web</artifactId>
-        <version>5.2.7.RELEASE</version>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.security</groupId>
-        <artifactId>spring-security-config</artifactId>
-        <version>5.2.7.RELEASE</version>
-    </dependency>
-    <!--<dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-configuration-processor</artifactId>
-        <optional>true</optional>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-security</artifactId>
-    </dependency> -->
-```
-## 2) 기본 java configuration
-
+### java configuration란?
+기존 xml기반 설정 파일을 java 설정으로 바꾸는 것이다.<br>
+스프링 3.2 버전부터 제공하며 확장성, 활용성 등이 기존 xml 기반 설정보다 뛰어나기 때문에 개발자들이 선호한다.<br>
+xml 기반으로 설정 파일을 작성하는 것과 크게 다를 것은 없다. 그냥 똑같은 설정인데 언어가 java로 바뀌었을 뿐이다.<br>
+<br><br>
+### spring framework 구동 순서
 ![중간 이미지](/images/spring_security_1_00.png)
->ss
 <br>
 ![중간 이미지](/images/spring_security_1_01.png)
->java configuration 패키지 형태
+<br><br>
 
+### 기본 java configuration
 1. WebConfig.java
 - DispatcherServlet 등록
 
