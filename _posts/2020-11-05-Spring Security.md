@@ -8,19 +8,19 @@ comments: true
 ## GOAL
 rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰을 사용하여 spring security 구현
 
-<strong세부목표</strong><br>
+**세부목표**<br>
 1. 일반회원과 매니저가 나뉘도록 권한 설정<br>
 2. jwt 토큰을 사용한 로그인<br>
 
 <br>
 
 ## 목차
-    <mark><strong>1) java configuration</strong></mark><br>
-    2) spring security configuration<br>
-    3) spring security란??<br>
-    4) spring security - basic authentication, form based authentication<br>
-    5) spring security - csrf<br>
-    6) spring security - jwt toekn<br> 
+<mark><strong>1. java configuration</strong></mark><br>
+2. spring security configuration<br>
+3. spring security란??<br>
+4. spring security - basic authentication, form based authentication<br>
+5. spring security - csrf<br>
+6. spring security - jwt toekn<br> 
 <br>
 <br>
 
@@ -75,18 +75,18 @@ Servlet의 생명주기를 관리해준다.(Servlet을 사용하는 시점에 Se
 java configuration은 프레임워크 레벨에서 서블릿 초기화 작업을 할 수 있도록 두 개의 컴포넌트를 제공하고 있다.
 <br>
 
-WebApplicationInitializer.class 
+1. WebApplicationInitializer.class 
 * DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.<br>
 <br>
-<mark><strong>AbstractAnnotationConfigDispatcherServletInitializer.class</strong></mark> 
+
+2. <mark><strong>AbstractAnnotationConfigDispatcherServletInitializer.class</strong></mark> 
 * 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.
 
 <br>
-두 클래스 중 하나를 선택하여 자식 클래스를 만들고 설정 파일을 등록해주면 된다.
+두 클래스 중 하나를 상속받고 설정 파일(rootconfig, servletconfig...)들을 등록해주면 된다.
 <br>
 <br>
-쉽게 생각하자면 xml 기반 설정에서 root-context.xml, servlet-context.xml을 만들듯, 
-RootConfig.java, ServletConfig.java를 만들면 되는 것이다.
+이렇게 쓰면 잘 감이 안오는 사람도 있을테지만, 샘플코드를 보면 바로 이해할 수 있을 것이다.
 <br>
 <br>
 나는 AbstractAnnotationConfigDispatcherServletInitializer 클래스를 선택했다.(스프링 3.2버전부터 지원)
@@ -105,6 +105,8 @@ FrontController의 역할을 수행. 어플리케이션으로 들어오는 요�
 <br>
 <br>
 아래 샘플 코드를 참조해보자. 
+<br>
+<br>
 '스프링 설정파일' 이라고 알려주는 어노테이션인 @Configuration 를 붙이고 
 AbstractAnnotationConfigDispatcherServletInitializer 를 상속받았다.  
 <br>
@@ -112,13 +114,13 @@ AbstractAnnotationConfigDispatcherServletInitializer 를 상속받았다.
 이 클래스를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
 <br>
 
-getRootConfigClasses() 
+1. getRootConfigClasses() 
 * root application context 설정파일을 등록한다.
 
-getServletConfigClasses() 
+2. getServletConfigClasses() 
 * dispatcher servlet application context 설정파일을 등록한다.
 
-getServletMappings() 
+3. getServletMappings() 
 * 브라우저에서 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정하는 메서드. 배열 형식이므로 요청 주소를 여러개 등록할 수 있다.
 <br>
 <br>
@@ -169,9 +171,10 @@ ServletConfig 파일은 WebMvcConfigurer 클래스를 상속받아 resourceHandl
 의 여러 빈들을 등록한다.
 <br>
 <br>
-어려울 것 없이, servelt-context.xml 파일 그대로 작성하면 된다.
-<br>
+어려울 것 없이, servelt-context.xml 파일에 있는 그대로 Bean들을 등록해주면 된다.
+
 지금 프로젝트에서는 기본 ViewResolver 대신 Tiles를 사용하고 있으므로, Tiles ViewResolver 를 먼저 등록해주었다.
+<br>
 <br>
 
 >WebMvcConfigurer 클래스는 @EnableWebMvc 어노테이션과 함께 사용하며,
@@ -226,7 +229,45 @@ public class ServletConfig implements WebMvcConfigurer {
 <br>
 <br>
 
+##### 3. DatabaseConfig
+```java
+@Configuration
+public class DatabaseConfig {
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Bean
+    public DriverManagerDataSource dataSource() {
+        DriverManagerDataSource source = new DriverManagerDataSource();
+        source.setDriverClassName("your class name");
+        source.setUrl("your url");
+        source.setUsername("your id");
+        source.setPassword("your password");
+
+        return source;
+    }
+
+    @Bean
+    public SqlSessionFactory sqlSession() throws Exception {
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+        sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:config/context-mybatis.xml")); //마이바티스 등록
+        sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath*:*mapper*/**/*.xml"));
+
+        return sqlSessionFactoryBean.getObject();
+    }
+
+
+    @Bean
+    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+        SqlSessionTemplate sqlSession = new SqlSessionTemplate(sqlSession());
+        return sqlSession;
+    }
+
+
+}
+```
 
 
 
