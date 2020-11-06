@@ -13,6 +13,7 @@ comments: true
 >ide : intellij<br>
 >was : tomcat 8.5<br>
 >build : maven<br>
+
 <br>
 <br>
 ### 시리즈 목차
@@ -54,6 +55,8 @@ java configuration의 경우, Spring은 애플리케이션을 구축할 수 있�
 >ContextLoaderListener는 root config 관련 파일을 로딩한다. (주로 db, log 등의 common beans)<br>
 >최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성<br>
 >DispatcherServlet 은 servlet config 관련 파일을 로딩한다.<br>
+
+<br>
 <p class="notice--info">
 <strong>Watch out!</strong><br> 
 <u>DispatcherServlet?</u><br> 
