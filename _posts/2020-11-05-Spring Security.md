@@ -7,22 +7,22 @@ comments: true
 
 ## 1. Java Configuration
 
-> 프로젝트 환경
-> version : spring 5.2.7<br>
-> jdk : java 1.8<br>
-> ide : intellij<br>
-> was : tomcat 8.5<br>
-> build : maven<br>
-<br>
-
 ### 시리즈 목차
-1) <mark>java configuration</mark><br>
+<mark>1) java configuration</mark><br>
 2) spring security란?<br>  
 3) spring security configuration<br>
 4) spring security - basic authentication, form based authentication<br>
 5) spring security - csrf<br>
 6) spring security - jwt toekn<br> 
 <br><br>
+
+> 프로젝트 환경<br>
+> version : spring 5.2.7<br>
+> jdk : java 1.8<br>
+> ide : intellij<br>
+> was : tomcat 8.5<br>
+> build : maven<br>
+<br>
 
 ### java configuration란?
 기존 xml기반 설정 파일을 java 설정으로 바꾸는 것이다. 스프링 3.2 버전부터 제공하며 확장성, 활용성 등이 뛰어나기 때문에 개발자들이 선호한다.
@@ -31,6 +31,7 @@ xml 기반으로 설정 파일을 작성하는 것과 크게 다를 것은 없�
 ### spring framework 구동 순서
 ![중간 이미지](/images/spring_security_1_00.png)
 <br>
+루트 컨텍스트 애플리케이션 -> 
 ![중간 이미지](/images/spring_security_1_01.png)
 <br><br>
 
