@@ -6,7 +6,7 @@ comments: true
 ---
 
 ## 1. Java Configuration
-<br>
+
 >프로젝트 환경
 >version : spring 5.2.7<br>
 >jdk : java 1.8<br>
@@ -16,7 +16,7 @@ comments: true
 <br>
 <br>
 ### 시리즈 목차
-1) <mark><strong>java configuration</strong></mark><br>
+<mark><strong>1)java configuration</strong></mark><br>
 2) spring security란?<br>
 3) spring security configuration<br>
 4) spring security - basic authentication, form based authentication<br>
@@ -37,7 +37,7 @@ spring framework 구동 순서를 따라서 xml configuration과 java configurat
 <br>
 >웹 어플리케이션이 실행되면 WAS에 의해 web.xml이 로딩되고, web.xml에 등록되어 있는 ContextLoaderListener가 메모리에 생성된다.
 >ContextLoaderListener 클래스는 ApplicationContext를 생성한다. 
-
+<br>
 <p class="notice--info">
 <strong>Watch out!</strong><br> 
  <u>ContextLoaderListener?</u><br> 
@@ -46,8 +46,10 @@ Servlet의 생명주기를 관리해준다.
 </p>
 <br>
 java configuration의 경우, Spring은 애플리케이션을 구축할 수 있는 두 개의 컴포넌트를 제공한다.
-* WebApplicationInitializer.class :  DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.
-<mark>* AbstractAnnotationConfigDispatcherServletInitializer.class : 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.</mark><br>
+* WebApplicationInitializer.class :  DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.<br>
+<mark>* AbstractAnnotationConfigDispatcherServletInitializer.class : 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.</mark>\
+<br>
+<br>
                                
 >ContextLoaderListener는 root config 관련 파일을 로딩한다. (주로 db, log 등의 common beans)<br>
 >최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성<br>
