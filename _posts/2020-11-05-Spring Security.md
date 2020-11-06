@@ -6,23 +6,26 @@ comments: true
 ---
 
 ## GOAL
-rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰을 사용한 spring security 구현
-(페이지별 권한, 로그인) 
+rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰을 사용하여 spring security 구현
+
+<strong세부목표</strong><br>
+1. 일반회원과 매니저가 나뉘도록 권한 설정<br>
+2. jwt 토큰을 사용한 로그인<br>
 
 <br>
 
 ## 목차
-<mark><strong>1)java configuration</strong></mark><br>
-2) spring security configuration<br>
-3) spring security란??<br>
-4) spring security - basic authentication, form based authentication<br>
-5) spring security - csrf<br>
-6) spring security - jwt toekn<br> 
+    <mark><strong>1) java configuration</strong></mark><br>
+    2) spring security configuration<br>
+    3) spring security란??<br>
+    4) spring security - basic authentication, form based authentication<br>
+    5) spring security - csrf<br>
+    6) spring security - jwt toekn<br> 
 <br>
 <br>
 
 ><strong>프로젝트 환경</strong><br>
->version : spring 5.2.7<br>
+>framework version : spring 5.2.7<br>
 >jdk : java 1.8<br>
 >ide : intellij<br>
 >was : tomcat 8.5<br>
@@ -31,12 +34,11 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 <br>
 
 ## 1) Java Configuration
-
 <br>
 
 기존 프로젝트는 전부 xml 기반의 설정을 사용중이었는데, spring security를 프로젝트에 적용하면서 
-모든 설정을 java configuration으로 변경하였다. xml 설정도 가능한 걸 알지만, 개발 측면에서도
-편리하고 확장성이 좋은 java configuration을 선택하였다.
+모든 설정을 java configuration으로 변경하였다. (xml 설정도 가능한 걸 알지만, java configuration이
+개발 측면에서도 편리하고 확장성이 좋다.)
 따라서 spring security 포스팅이지만 java configuration 에 대해서도 간단하게 다루고자 한다.
 
 <br>
