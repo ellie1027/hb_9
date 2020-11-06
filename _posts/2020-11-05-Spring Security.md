@@ -12,7 +12,7 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 <br>
 
 ## 목차
-<mark><em><strong>1)java configuration</strong></em></mark><br>
+<mark><strong>1)java configuration</strong></mark><br>
 2) spring security configuration<br>
 3) spring security란??<br>
 4) spring security - basic authentication, form based authentication<br>
@@ -34,8 +34,9 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 
 <br>
 
-기존 프로젝트는 전부 xml configuration 이었으나, spring security를 
-java configuration 으로 하는 김에 일관성있도록 java configuration으로 변경하였다. 
+기존 프로젝트는 전부 xml 기반의 설정을 사용중이었는데, spring security를 프로젝트에 적용하면서 
+모든 설정을 java configuration으로 변경하였다. xml 설정도 가능한 걸 알지만, 개발 측면에서도
+편리하고 확장성이 좋은 java configuration을 선택하였다.
 따라서 spring security 포스팅이지만 java configuration 에 대해서도 간단하게 다루고자 한다.
 
 <br>
@@ -62,8 +63,6 @@ spring framework 구동 순서를 따라가며 java configuration을 해보자.
 ><u><em><strong>if xml..?</strong></em></u><br> 웹 어플리케이션이 실행되면 WAS에 의해 <code>web.xml</code>이 로딩되고, <code>web.xml</code>에 등록되어 있는 <code>ContextLoaderListener</code>가 메모리에 생성된다.
 ><code>ContextLoaderListener</code> 클래스는 <code>ApplicationContext</code>를 생성한다. 
 
-<br>
-
 <p class="notice--info">
 <strong><u>ContextLoaderListener?</u></strong><br> 
 Servlet의 생명주기를 관리해준다.(Servlet을 사용하는 시점에 Servlet Context에 ApplicationContext 등록, Servlet이 종료되는 시점에 ApplicationContext 삭제)
@@ -71,16 +70,17 @@ Servlet의 생명주기를 관리해준다.(Servlet을 사용하는 시점에 Se
 
 <br>
 
-java configurationd은 프레임워크 레벨에서 초기화 작업을 할 수 있도록 두 개의 컴포넌트를 제공하고 있다.
+java configuration은 프레임워크 레벨에서 서블릿 초기화 작업을 할 수 있도록 두 개의 컴포넌트를 제공하고 있다.
 <br>
 
 WebApplicationInitializer.class 
 * DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.<br>
+<br>
 <mark><strong>AbstractAnnotationConfigDispatcherServletInitializer.class</strong></mark> 
 * 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.
 
 <br>
-두 클래스 중 하나를 선택하여 자식 클래스를 만들고 각 계층에 맞는 설정 파일을 만들어 return 해주면 된다.
+두 클래스 중 하나를 선택하여 자식 클래스를 만들고 설정 파일을 등록해주면 된다.
 <br>
 <br>
 쉽게 생각하자면 xml 기반 설정에서 root-context.xml, servlet-context.xml을 만들듯, 
@@ -93,8 +93,7 @@ RootConfig.java, ServletConfig.java를 만들면 되는 것이다.
                                
 ><u><em><strong>if xml..?</strong></em></u><br> ContextLoaderListener는 root config 관련 파일을 로딩한다. 
 >(주로 db, log 등의 common beans)<br>
->최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성한다.<br>
->DispatcherServlet 은 servlet config 관련 파일을 로딩한다.<br>
+>최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성되고, servlet config 관련 파일을 로딩한다.<br>
 
 <br>
 <p class="notice--info">
@@ -104,17 +103,19 @@ FrontController의 역할을 수행. 어플리케이션으로 들어오는 요�
 <br>
 <br>
 아래 샘플 코드를 참조해보자. 
-'스프링 설정파일' 이라고 알려주는 @Configuration 어노테이션을 붙이고 
+'스프링 설정파일' 이라고 알려주는 어노테이션인 @Configuration 를 붙이고 
 AbstractAnnotationConfigDispatcherServletInitializer 를 상속받았다.  
 <br>
 <br>
-AbstractAnnotationConfigDispatcherServletInitializer.class 를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
+이 클래스를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
 <br>
 
 getRootConfigClasses() 
 * root application context 설정파일을 등록한다.
+
 getServletConfigClasses() 
 * dispatcher servlet application context 설정파일을 등록한다.
+
 getServletMappings() 
 * 브라우저에서 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정하는 메서드. 배열 형식이므로 요청 주소를 여러개 등록할 수 있다.
 <br>
