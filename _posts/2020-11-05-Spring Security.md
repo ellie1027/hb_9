@@ -7,13 +7,12 @@ comments: true
 
 ## 1. Java Configuration
 <br>
-<br>
-> 프로젝트 환경
-> version : spring 5.2.7<br>
-> jdk : java 1.8<br>
-> ide : intellij<br>
-> was : tomcat 8.5<br>
-> build : maven<br>
+>프로젝트 환경
+>version : spring 5.2.7<br>
+>jdk : java 1.8<br>
+>ide : intellij<br>
+>was : tomcat 8.5<br>
+>build : maven<br>
 <br>
 <br>
 ### 시리즈 목차
