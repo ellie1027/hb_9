@@ -10,10 +10,9 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 (페이지별 권한, 로그인) 
 
 <br>
-<br>
 
 ## 목차
-<mark><em>**1)java configuration**</em></mark><br>
+<mark><em><strong>1)java configuration</strong></em></mark><br>
 2) spring security configuration<br>
 3) spring security란??<br>
 4) spring security - basic authentication, form based authentication<br>
@@ -22,7 +21,7 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 <br>
 <br>
 
->프로젝트 환경<br>
+><strong>프로젝트 환경</strong><br>
 >version : spring 5.2.7<br>
 >jdk : java 1.8<br>
 >ide : intellij<br>
@@ -30,20 +29,20 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 >build : maven<br>
 
 <br>
-<br>
 
 ## 1) Java Configuration
 
 <br>
 
->기존 프로젝트는 xml configuration 이었으나, spring security를 
->java configuration 으로 하는 김에 유지보수 측면에서 유리하도록 
->java configuration으로 변경하였다.
+기존 프로젝트는 전부 xml configuration 이었으나, spring security를 
+java configuration 으로 하는 김에 일관성있도록 java configuration으로 변경하였다. 
+따라서 spring security 포스팅이지만 java configuration 에 대해서도 간단하게 다루고자 한다.
 
 <br>
 
 ### java configuration란?
-스프링 프레임워크의 기존 xml기반 설정 파일(ex; servlet-context.xml, web.xml...)을 java 설정으로 바꾸는 것이다.
+스프링 프레임워크의 기존 xml기반 설정 파일(ex; servlet-context.xml, web.xml...)을 프레임워크 레벨에서
+java로 설정할 수 있도록 바꾸는 것이다.
 스프링 3.1 버전부터 제공하며 확장성, 활용성 등이 뛰어나기 때문에 개발자들이 선호한다.
 <br>
 <br>
@@ -60,7 +59,7 @@ spring framework 구동 순서를 따라가며 java configuration을 해보자.
 
 <br>
 
-><u><em>**if xml..?**</em></u><br> 웹 어플리케이션이 실행되면 WAS에 의해 <code>web.xml</code>이 로딩되고, <code>web.xml</code>에 등록되어 있는 <code>ContextLoaderListener</code>가 메모리에 생성된다.
+><u><em><strong>if xml..?</strong></em></u><br> 웹 어플리케이션이 실행되면 WAS에 의해 <code>web.xml</code>이 로딩되고, <code>web.xml</code>에 등록되어 있는 <code>ContextLoaderListener</code>가 메모리에 생성된다.
 ><code>ContextLoaderListener</code> 클래스는 <code>ApplicationContext</code>를 생성한다. 
 
 <br>
@@ -74,22 +73,27 @@ Servlet의 생명주기를 관리해준다.(Servlet을 사용하는 시점에 Se
 
 java configurationd은 프레임워크 레벨에서 초기화 작업을 할 수 있도록 두 개의 컴포넌트를 제공하고 있다.
 <br>
+
 WebApplicationInitializer.class 
-:  DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.<br>
-<mark>AbstractAnnotationConfigDispatcherServletInitializer.class 
-: 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.</mark>
+* DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.<br>
+<mark><strong>AbstractAnnotationConfigDispatcherServletInitializer.class</strong></mark> 
+* 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.
 
 <br>
 두 클래스 중 하나를 선택하여 자식 클래스를 만들고 각 계층에 맞는 설정 파일을 만들어 return 해주면 된다.
+<br>
+<br>
 쉽게 생각하자면 xml 기반 설정에서 root-context.xml, servlet-context.xml을 만들듯, 
 RootConfig.java, ServletConfig.java를 만들면 되는 것이다.
+<br>
 <br>
 나는 AbstractAnnotationConfigDispatcherServletInitializer 클래스를 선택했다.(스프링 3.2버전부터 지원)
 <br>
 <br>
                                
-><u><em>**if xml..?**</em></u><br> ContextLoaderListener는 root config 관련 파일을 로딩한다. (주로 db, log 등의 common beans)<br>
->최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성<br>
+><u><em><strong>if xml..?</strong></em></u><br> ContextLoaderListener는 root config 관련 파일을 로딩한다. 
+>(주로 db, log 등의 common beans)<br>
+>최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성한다.<br>
 >DispatcherServlet 은 servlet config 관련 파일을 로딩한다.<br>
 
 <br>
@@ -106,12 +110,13 @@ AbstractAnnotationConfigDispatcherServletInitializer 를 상속받았다.
 <br>
 AbstractAnnotationConfigDispatcherServletInitializer.class 를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
 <br>
+
 getRootConfigClasses() 
-: root application context 설정파일을 등록한다.
+* root application context 설정파일을 등록한다.
 getServletConfigClasses() 
-: dispatcher servlet application context 설정파일을 등록한다.
+* dispatcher servlet application context 설정파일을 등록한다.
 getServletMappings() 
-: 브라우저에서 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정하는 메서드. 배열 형식이므로 요청 주소를 여러개 등록할 수 있다.
+* 브라우저에서 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정하는 메서드. 배열 형식이므로 요청 주소를 여러개 등록할 수 있다.
 <br>
 <br>
 
@@ -154,17 +159,21 @@ public class RootConfig {
 
 }
 ```
+
 <br>
 <br>
-WebMvcConfigurer 클래스는 @EnableWebMvc 어노테이션과 함께 사용하며,
-java configuration 상에서 커스터마이징을 위한 callback method를 재정의하도록 제공해주는 클래스이다.
+ServletConfig 파일은 WebMvcConfigurer 클래스를 상속받아 resourceHandler, ViewResolver 등 dispatcher servlet 
+의 여러 빈들을 등록한다.
 <br>
-ServletConfig 파일은 WebMvcConfigurer 클래스를 상속받아 
-resourceHandler, ViewResolver 등 dispatcher servlet 레벨의
-여러 빈들을 등록한다.
+<br>
 어려울 것 없이, servelt-context.xml 파일 그대로 작성하면 된다.
 <br>
 지금 프로젝트에서는 기본 ViewResolver 대신 Tiles를 사용하고 있으므로, Tiles ViewResolver 를 먼저 등록해주었다.
+<br>
+
+>WebMvcConfigurer 클래스는 @EnableWebMvc 어노테이션과 함께 사용하며,
+>java configuration 상에서 커스터마이징을 위한 callback method를 재정의하도록 제공해주는 클래스이다.
+
 <br>
 
 ##### 3. ServletConfig.java
