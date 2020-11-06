@@ -6,7 +6,7 @@ comments: true
 ---
 
 ## GOAL
-rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰을 사용하여 spring security 구현
+rest api 기반의 ajax를 쓰는 프로젝트에서 jwt 토큰을 사용하여 spring security 구현
 
 **세부목표**<br>
 1. 일반회원과 매니저가 나뉘도록 권한 설정<br>
@@ -15,7 +15,7 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 <br>
 
 ## 목차
-<mark><strong>1. java configuration</strong></mark><br>
+1. **java configuration**<br>
 2. spring security configuration<br>
 3. spring security란??<br>
 4. spring security - basic authentication, form based authentication<br>
@@ -39,7 +39,7 @@ rest api 기반의 ajax를 쓰는 스터디 관리 프로젝트에서 jwt 토큰
 기존 프로젝트는 전부 xml 기반의 설정을 사용중이었는데, spring security를 프로젝트에 적용하면서 
 모든 설정을 java configuration으로 변경하였다. (xml 설정도 가능한 걸 알지만, java configuration이
 개발 측면에서도 편리하고 확장성이 좋다.)
-따라서 spring security 포스팅이지만 java configuration 에 대해서도 간단하게 다루고자 한다.
+따라서 java configuration 에 대해서도 간단하게 다루고자 한다.
 
 <br>
 
@@ -71,7 +71,6 @@ Servlet의 생명주기를 관리해준다.(Servlet을 사용하는 시점에 Se
 </p>
 
 <br>
-
 java configuration은 프레임워크 레벨에서 서블릿 초기화 작업을 할 수 있도록 두 개의 컴포넌트를 제공하고 있다.
 <br>
 
@@ -84,8 +83,6 @@ java configuration은 프레임워크 레벨에서 서블릿 초기화 작업을
 
 <br>
 두 클래스 중 하나를 상속받고 설정 파일(rootconfig, servletconfig...)들을 등록해주면 된다.
-<br>
-<br>
 이렇게 쓰면 잘 감이 안오는 사람도 있을테지만, 샘플코드를 보면 바로 이해할 수 있을 것이다.
 <br>
 <br>
@@ -102,7 +99,6 @@ java configuration은 프레임워크 레벨에서 서블릿 초기화 작업을
 <strong><u>DispatcherServlet?</u></strong><br> 
 FrontController의 역할을 수행. 어플리케이션으로 들어오는 요청을 받아 알맞은 Controller에게 전달 후 응답을 받아, 요청에 따른 응답을 어떻게 할지 결정함.
 </p>
-<br>
 <br>
 아래 샘플 코드를 참조해보자. 
 <br>
@@ -229,7 +225,7 @@ public class ServletConfig implements WebMvcConfigurer {
 <br>
 <br>
 
-##### 3. DatabaseConfig
+##### 4. DatabaseConfig
 ```java
 @Configuration
 public class DatabaseConfig {
