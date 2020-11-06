@@ -1,11 +1,9 @@
 ---
 layout: post
-title: "Spring Security (1) 의존성 추가 및 기본 설정"
+title: "RestApi + Ajax + Jwt Token을 이용한 Spring Security 구축  (1) 의존성 추가 및 기본 설정"
 tags: [security]
 comments: true
 ---
-
-## 0) 스프링 시큐리티를 배운 이유
 
 현재 진행중인 토이 프로젝트에서 로그인/회원가입을 위하여 스프링 시큐리티를 사용하기로 하였다. 구글링을 통하여 블로그 포스팅, 책 등을 뒤져봤지만 전체적인 흐름이 눈에 
 들어오지 않아서 일단 유투브에서 강의를 찾아 듣고 프로젝트에 적용해보았다.<br>
@@ -24,7 +22,6 @@ comments: true
 먼저 현재 사용하고 있는 스프링 버전에 맞춰 의존성을 추가해준다. <br>
 만약 스프링 부트를 사용하고 있다면 버전 관리의 필요성이 없지만 그렇지 않다면 버전 관리는 매우 중요하다.<br>
 
-<br>
 ```xml
 <!-- spring security -->
     <dependency>
@@ -47,18 +44,22 @@ comments: true
         <artifactId>spring-boot-starter-security</artifactId>
     </dependency> -->
 ```
+## 2) 기본 java configuration
 
-## 2) java configuration
-
+![중간 이미지](/images/spring_security_1_00.png)
+>ss
+<br>
 ![중간 이미지](/images/spring_security_1_01.png)
-- java configuration 패키지 형태
+>java configuration 패키지 형태
 
 1. WebConfig.java
+- DispatcherServlet 등록
 
 ```java
-@Configuration
-@ComponentScan(basePackages="your packages")
-public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
+@Configuration //스프링 설정 파일 등록
+public class WebConfig 
+        extends AbstractAnnotationConfigDispatcherServletInitializer {
+    
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class[]{ RootConfig.class, AppSecurityConfig.class };
@@ -75,7 +76,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     }
 }
 ```
-
+<br>
 자바 기반 스프링 설정을 사용할 수 있도록 DispatcherServlet 을 등록하는 클래스이다. 
 간단하게 AbstractAnnotationConfigDispatcherServletInitializer 클래스를 상속받아서 만든다.(스프링 3.2 부터 사용 가능한 클래스!)
 WebApplicationInitializer 인터페이스의 onStartup 메서드를 구현하는 방법도 있지만 나는 해당 클래스를 상속받는 편이 좀 더 간단한 것 같다.
@@ -83,11 +84,71 @@ WebApplicationInitializer 인터페이스의 onStartup 메서드를 구현하는
 <br>
 해당 클래스를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
 <br>
-* getRootConfigClasses()
-    - root application context 설정파일을 등록한다.
-* getServletConfigClasses()
-    - DispatcherServlet application context 설정파일을 등록한다.
+* getRootConfigClasses() : root application context 설정파일을 등록한다.
+* getServletConfigClasses() : DispatcherServlet application context 설정파일을 등록한다.
+* getServletMappings() : 브라우저에서 요청한 주소 패턴을 보고 스프링에서 처리할지 말지를 결정하는 메서드. 배열 형식이므로 요청 주소를 여러개 등록할 수 있다.
 <br>
+<br>
+
+2. Root Config.java
+
+```java
+@Configuration
+@ComponentScan(basePackages= {"your packages"})
+public class RootConfig {
+
+}
+```
+
+3. ServletConfig.java
+
+```java
+@EnableWebMvc
+@ComponentScan(basePackages= {"kr.ko.ym"})
+public class ServletConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Bean
+    public UrlBasedViewResolver tilesViewResolver() {
+        UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
+        urlBasedViewResolver.setViewClass(TilesView.class);
+        urlBasedViewResolver.setOrder(1);
+        return urlBasedViewResolver;
+    }
+
+    @Bean
+    public TilesConfigurer tilesConfigurer() {
+        TilesConfigurer tilesConfigurer = new TilesConfigurer();
+        tilesConfigurer.setDefinitions("/WEB-INF/views/layout/tiles-layout.xml");
+        return tilesConfigurer;
+    }
+
+    @Override
+    public void configureViewResolvers(ViewResolverRegistry registry) {
+        InternalResourceViewResolver bean = new InternalResourceViewResolver();
+        bean.setViewClass(JstlView.class);
+        bean.setPrefix("/WEB-INF/views/");
+        bean.setSuffix(".jsp");
+        registry.viewResolver(bean);
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("utf-8");
+        return resolver;
+    }
+}
+```
+<br>
+<br>
+WebMvcConfigurer 클래스를 상속받아 resourceHandler, ViewResolver 등 여러 빈들을 등록해주는 클래스이다.
+지금 프로젝트에서 기본 ViewResolver 대신 Tiles를 사용하고 있으므로, Tiles ViewResolver 를 먼저 등록해주었다.
+
 
 
 
