@@ -6,7 +6,8 @@ comments: true
 ---
 
 ## 1. Java Configuration
-
+<br>
+<br>
 > 프로젝트 환경
 > version : spring 5.2.7<br>
 > jdk : java 1.8<br>
@@ -14,23 +15,25 @@ comments: true
 > was : tomcat 8.5<br>
 > build : maven<br>
 <br>
-
+<br>
 ### 시리즈 목차
 1) <mark><strong>java configuration</strong></mark><br>
-2) spring security란? 
+2) spring security란?<br>
 3) spring security configuration<br>
 4) spring security - basic authentication, form based authentication<br>
 5) spring security - csrf<br>
 6) spring security - jwt toekn<br> 
-<br><br>
-
+<br>
+<br>
 ### java configuration란?
-스프링 프레임워크의 기존 xml기반 설정 파일(ex; *-context.xml, web.xml...)을 java 설정으로 바꾸는 것이다. 
+스프링 프레임워크의 기존 xml기반 설정 파일(ex; *-context.xml, web.xml...)을 java 설정으로 바꾸는 것이다.<br> 
 스프링 3.1 버전부터 제공하며 확장성, 활용성 등이 뛰어나기 때문에 개발자들이 선호한다.
-<br><br>
+<br>
+<br>
 ### xml / java configuration 비교
 ![중간 이미지](/images/spring_security_1_00.png)
-<br><br>
+<br>
+<br>
 spring framework 구동 순서를 따라서 xml configuration과 java configuration을 비교한다.
 <br>
 >웹 어플리케이션이 실행되면 WAS에 의해 web.xml이 로딩되고, web.xml에 등록되어 있는 ContextLoaderListener가 메모리에 생성된다.
@@ -38,24 +41,25 @@ spring framework 구동 순서를 따라서 xml configuration과 java configurat
 
 <p class="notice--info">
 <strong>Watch out!</strong><br> 
-ContextLoaderListener? 
+ <u>ContextLoaderListener?</u><br> 
 Servlet의 생명주기를 관리해준다.
-Servlet을 사용하는 시점에 Servlet Context에 ApplicationContext 등록, Servlet이 종료되는 시점에 ApplicationContext 삭제
+(Servlet을 사용하는 시점에 Servlet Context에 ApplicationContext 등록, Servlet이 종료되는 시점에 ApplicationContext 삭제)
 </p>
-
+<br>
 java configuration의 경우, Spring은 애플리케이션을 구축할 수 있는 두 개의 컴포넌트를 제공한다.
 * WebApplicationInitializer.class :  DispatcherServlet과 ContextLoaderListener 등록을 모두 구현해주어야 함.
-<mark>* AbstractAnnotationConfigDispatcherServletInitializer.class : 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.</mark>
+<mark>* AbstractAnnotationConfigDispatcherServletInitializer.class : 내부적으로 서블릿 컨텍스트 초기화 작업이 이미 구현되어 있음.</mark><br>
                                
->ContextLoaderListener는 root config 관련 파일을 로딩한다. (주로 db, log 등의 common beans)
->최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성
->DispatcherServlet 은 servlet config 관련 파일을 로딩한다.
+>ContextLoaderListener는 root config 관련 파일을 로딩한다. (주로 db, log 등의 common beans)<br>
+>최초의 웹 어플리케이션 요청이 오면 DispatcherServlet 가 생성<br>
+>DispatcherServlet 은 servlet config 관련 파일을 로딩한다.<br>
 <p class="notice--info">
 <strong>Watch out!</strong><br> 
-DispatcherServlet? 
+<u>DispatcherServlet?</u><br> 
 FrontController의 역할을 수행. 어플리케이션으로 들어오는 요청을 받아 알맞은 Controller에게 전달 후 응답을 받아, 요청에 따른 응답을 어떻게 할지 결정함.
 </p>
-
+<br>
+<br>
 AbstractAnnotationConfigDispatcherServletInitializer.class 를 상속받으면 다음과 같은 메서드를 사용할 수 있다.
 <br>
 * getRootConfigClasses() : root application context 설정파일을 등록한다.
