@@ -161,6 +161,7 @@ public class RootConfig {
 }
 ```
 
+##### 3. ServletConfig.java
 <br>
 <br>
 ServletConfig 파일은 WebMvcConfigurer 클래스를 상속받아 resourceHandler, ViewResolver 등 dispatcher servlet 
@@ -178,7 +179,6 @@ ServletConfig 파일은 WebMvcConfigurer 클래스를 상속받아 resourceHandl
 
 <br>
 
-##### 3. ServletConfig.java
 ```java
 //sample code
 @EnableWebMvc
@@ -224,8 +224,12 @@ public class ServletConfig implements WebMvcConfigurer {
 ```
 <br>
 <br>
+DB 설정파일은 Root Context에 등록해도 되지만, 따로 뺐다.
+<br>
+<br>
 
 ##### 4. DatabaseConfig
+
 ```java
 @Configuration
 public class DatabaseConfig {
