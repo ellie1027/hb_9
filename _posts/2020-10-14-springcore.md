@@ -1,11 +1,13 @@
 ---
-title: "Spring Core - IoC Container"
-date: 2020-10-14 
-categories: spring
+layout: post
+title: "Spring Core - IoC Container (1)"
+tags: [spring]
+comments: true
 ---
 
-<kbd>references; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)</kbd>
-
+**references; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)**
+<br>
+<br>
 ## 학습 목표
 * 스프링 프레임워크의 핵심 기술 IoC, AOP, PSA를 이해한다.
 * 스프링 프레임워크 IoC 컨테이너의 다양한 기능을 사용할 수 있다.

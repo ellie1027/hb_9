@@ -1,8 +1,8 @@
 ---
-title: "Linked List"
-date: 2020-07-20 14:51:00 -0400
-categories: algorithm
-tags: algorithm, java, 자료구조
+layout: post
+title: "Linked list"
+tags: [algorithm, java, 자료구조]
+comments: true
 ---
 
 Linked List
