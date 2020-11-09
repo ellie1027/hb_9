@@ -1,44 +1,58 @@
 ---
-title: "Spring Core"
+title: "Spring Core - IoC Container"
 date: 2020-10-14 
 categories: spring
 ---
 
+References; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)
 
-스프링 프레임워크 중에서도, 코어 라이브러리를 공부한다.
+## 학습 목표
+* 스프링 프레임워크의 핵심 기술 IoC, AOP, PSA를 이해한다.
+* 스프링 프레임워크 IoC 컨테이너의 다양한 기능을 사용할 수 있다.
+* 다양한 방법으로 빈을 정의하고 의존 관계를 주입할 수 있다.
+* 스프링 AOP를 사용하여 Aspect를 모듈화 할 수 있다.
+* 그밖에 다양한 스프링 핵심 기술을 이해하고 활용할 수 있다.
 
-<b>Spring Core</b>
 
-Spring FrameWork Documentation
-Core - IoC container, Events, Resources, i18n, Validation, Data Binding, Type Conversion, SpEL, AOP
-
-
-##### Spring IoC 컨테이너와 빈 #####
+##1. Spring IoC 컨테이너와 빈
 
 Inversion Of Countrol 
-- 의존 관계 주입(Dependency Injection)이라고도 하며, 어떤 객체가 사용하는 의존 객체를 **직접 만들어 사용하는게 아니라, 주입 받아** 사용하는 방법을 말함
+: 의존 관계 주입(Dependency Injection)이라고도 하며, 어떤 객체가 사용하는 의존 객체를 **직접 만들어 사용하는게 아니라, 주입 받아** 사용하는 방법을 말함
 
-BookRepository bookRepository = new BookRepository();
-BookService bookService = new BookService(bookRepository);
+```java
+class BookService {
 
-이런식으로 의존 객체를 직접 만드는 대신
-
-대신 
-
-@Service, @Repository, @Autowired 등 IoC 컨테이너에 있는 어노테이션을 사용하여 POJO 객체를 Bean으로 등록을 하고 주입 한다.
-
+    BookRepository bookRepository = new BookRepository();
+    BookService bookService = new BookService(bookRepository);
+    
+    //이런식으로 의존 객체를 직접 만드는 대신 어떤 장치(ex. 생성자)를 사용하여 주입받아 사용하는 것
+    //스프링이 없어도 저런 장체만 마련되어 있으면 만들 수 있다.
+    
+    private BookRepository bookRepository;
+    
+    public BookService(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }     
+}
+```
+<br>
+그런데 위와 같은 방법을 사용하지 않고, IoC 컨테이너를 사용하는 이유는 스프링 초기부터 여러 개발자들의 논의와 노하우가 쌓인 결과로 만들어진 프레임워크이기 때문이다.
+<br>
+<br>
 스프링 IoC 컨테이너
-- BeanFactory 
-  * IoC컨테이너 중 가장 최상위에 있는 인터페이스, 가장 핵심적인 클래스
-  * 다양한 빈 팩토리 라이프사이클 인터페이스로 여러 기능 제공
-  * 애플리케이션 컴포넌트의 중앙 저장소
-  * 빈 설정 소스로부터 빈 정의를 읽어들이고, 빈을 구성하고 제공.
-- 애플리케이션 컴포넌트의 중앙 저장소
-- 빈 설정 소스로부터 빈 정의를 읽어들이고, 빈을 구성하고 제공한다.
+: 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.
+<br>
+BeanFactory 
+: IoC컨테이너 중 가장 최상위에 있는 인터페이스, 가장 핵심적인 클래스<br>
+  다양한 빈 팩토리 라이프사이클 인터페이스들이 여러 기능 제공<br>
+  애플리케이션 컴포넌트의 중앙 저장소<br>
+  빈 설정 소스로부터 빈 정의를 읽어들이고, 빈을 구성하고 제공.<br>
+<br>
+<br>  
+빈<br>
+: 스프링 IoC 컨테이너가 관리하는 객체.<br>
 
-빈
-- 스프링 IoC 컨테이너가 관리하는 객체.
-- 장점
+* 장점<br>
   * 의존성 관리(의존성 관리를 하려면 빈이여야 함) -->(단점? 의존성 관리때문에 단위테스트 만들기 힘듬)
   * 스코프
     * 싱글톤 : 하나
