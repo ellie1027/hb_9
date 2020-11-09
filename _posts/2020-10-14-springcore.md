@@ -41,14 +41,12 @@ class BookService {
 <br>
 
 스프링 IoC 컨테이너
-: 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.
+: 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.<br>
 
-<br>
 
 Bean
 : 스프링 IoC 컨테이너가 관리하는 객체.<br>
 
-<br>
 
 BeanFactory 
 : IoC컨테이너 중 가장 최상위에 있는 인터페이스, 가장 핵심적인 클래스<br>
@@ -57,9 +55,8 @@ BeanFactory
   빈 설정 소스로부터 빈 정의를 읽어들이고, 빈을 구성하고 제공.<br>
 
 <br>
-<br>
 
-* 장점<br>
+* **장점**<br>
   * 의존성 관리 - 의존성 관리를 하려면 빈이여야 함. 빈이기 때문에 의존성을 알아서 관리해줌.<br>
   * 스코프<br>
     * 싱글톤타입 : '하나' 만 만들어서 그걸 계속 사용하는 것<br>
@@ -69,7 +66,7 @@ BeanFactory
     * 라이프사이클 인터페이스를 지원함 : 스프링 IoC 컨테이너에 등록된 빈에 국한함. <br>
 <br>
 <br>
-* 단점<br>
+* **단점**<br>
   * 의존성 관리때문에 단위테스트 만들기 힘듬(예를 들면, bookService에 bookRepository를 의존성 주입했을 때, bookRepository의 메소드를 완성해야만 bookService를 테스트할 수 있음) 
 <br>
 <br>
