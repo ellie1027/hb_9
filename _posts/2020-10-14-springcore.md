@@ -14,10 +14,10 @@ References; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)
 * 그밖에 다양한 스프링 핵심 기술을 이해하고 활용할 수 있다.
 
 
-##1. Spring IoC 컨테이너와 빈
+## 1. Spring IoC 컨테이너와 빈
 
-Inversion Of Countrol 
-: 의존 관계 주입(Dependency Injection)이라고도 하며, 어떤 객체가 사용하는 의존 객체를 **직접 만들어 사용하는게 아니라, 주입 받아** 사용하는 방법을 말함
+IoC 
+: Inversion of Control. 의존 관계 주입(Dependency Injection)이라고도 하며, 어떤 객체가 사용하는 의존 객체를 **직접 만들어 사용하는게 아니라, 주입 받아** 사용하는 방법을 말함
 
 ```java
 class BookService {
@@ -26,7 +26,7 @@ class BookService {
     BookService bookService = new BookService(bookRepository);
     
     //이런식으로 의존 객체를 직접 만드는 대신 어떤 장치(ex. 생성자)를 사용하여 주입받아 사용하는 것
-    //스프링이 없어도 저런 장체만 마련되어 있으면 만들 수 있다.
+    //스프링이 없어도 저런 장치만 마련되어 있으면 만들 수 있다.
     
     private BookRepository bookRepository;
     
@@ -36,12 +36,15 @@ class BookService {
 }
 ```
 <br>
-그런데 위와 같은 방법을 사용하지 않고, IoC 컨테이너를 사용하는 이유는 스프링 초기부터 여러 개발자들의 논의와 노하우가 쌓인 결과로 만들어진 프레임워크이기 때문이다.
+그런데 위와 같은 방법을 사용하지 않고, 제어역전에 IoC 컨테이너를 사용하는 이유는 스프링 초기부터 여러 개발자들의 논의와 노하우가 쌓인 결과로 만들어진 프레임워크이기 때문이다.
 <br>
 <br>
+
 스프링 IoC 컨테이너
 : 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.
+
 <br>
+
 BeanFactory 
 : IoC컨테이너 중 가장 최상위에 있는 인터페이스, 가장 핵심적인 클래스<br>
   다양한 빈 팩토리 라이프사이클 인터페이스들이 여러 기능 제공<br>
@@ -61,11 +64,17 @@ BeanFactory
     * 프로포토타입 : 매번 다른 객체
     * 라이프사이클 인터페이스를 지원함(스프링 IoC컨테이너에 등록된 빈에 국한)
     
+   
+<br>
+<br>
     
-- Interface ApplicationContext (BeanFactory를 상속받음)
+- Interface ApplicationContext (BeanFactory를 상속받음)<br>
 IoC의 기능을 가지고 있으면서도, EventPublisher, EnviromentCapable, HierarchicalBeanFactory, ListableBeanFactory, MessageSource(메세지 다국화),
 ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 파일, 웹에 있는 파일 등을 리소스라고 하는데 이것들을 읽어오는 기능), ResourcePatternResolver 기능도 가지고 있다.
 빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스.
+
+<br>
+<br>
 
 대표적인 ApplicationContext와 해당 ApplicationContext가 가지고 있는 Bean 설정파일
 - ClassPathXmlApplicationContext(XML)
