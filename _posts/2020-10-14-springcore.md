@@ -19,7 +19,7 @@ comments: true
 <br>
 <br>
 
-## 1. Spring IoC 컨테이너와 빈
+## 1. Spring IoC 컨테이너와 빈 (1) - IoC, Bean Factory
 
 Inversion of Control 
 : 의존 관계 주입(Dependency Injection)이라고도 하며, 어떤 객체가 사용하는 의존 객체를 **직접 만들어 사용하는게 아니라, 주입 받아** 사용하는 방법을 말함
@@ -49,16 +49,18 @@ class BookService {
 : 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.<br>
 
 <br>
-<br>
 스프링 IoC 컨테이너의 역할
 * 빈 인스턴스 생성
 * 의존 관계 설정
 * 빈 제공
+
 <br>
 <br>
+
 Bean
 : 스프링 IoC 컨테이너가 관리하는 객체.<br>
 
+<br>
 
 BeanFactory 
 : IoC컨테이너 중 가장 최상위에 있는 인터페이스, 가장 핵심적인 클래스<br>
@@ -73,7 +75,7 @@ BeanFactory
   * 스코프<br>
     * 싱글톤타입 : '하나' 만 만들어서 그걸 계속 사용하는 것<br>
         * 빈을 만들때 아무런 애노테이션을 붙이지 않았다면, 그 빈들은 모두 싱글톤 스코프로 등록됨.<br> 
-        * 애플리케이션 전반에서 컨테이너로부터 서비스,레파지토리 등를 받아서 사용한다면 그 인스턴스들은 항상 '같은 객체' 일 것이다. 메모리, 런타임 시 성능최적화에도 유리하다.<br>
+        * **애플리케이션 전반에서 컨테이너로부터 서비스,레파지토리 등를 받아서 사용한다면 그 인스턴스들은 항상 '같은 객체' 일 것이다. 메모리, 런타임 시 성능최적화에도 유리하다.**<br>
     * 프로포토타입 : 매번 만들어서 계속 다른 객체를 사용하는 것<br>
     * 라이프사이클 인터페이스를 지원함 : 스프링 IoC 컨테이너에 등록된 빈에 국한함. <br>
 <br>
@@ -86,21 +88,26 @@ BeanFactory
 그런데 실질적으로 개발자들이 많이 쓰는 것은 BeanFactory를 상속받아 쓰는 ApplicationContext다.
 
 <br>
-<br>
+
+## 1. Spring IoC 컨테이너와 빈 (2) - ApplicationContext
 
 ApplicationContext
 : IoC의 기능을 가지고 있으면서도, EventPublisher, EnviromentCapable, HierarchicalBeanFactory, ListableBeanFactory, MessageSource(메세지 다국화),
 ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 파일, 웹에 있는 파일 등을 리소스라고 하는데 이것들을 읽어오는 기능), ResourcePatternResolver 기능도 가지고 있다.
-빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스. 
+<br>정리하자면, 빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스. 
 
 <br>
 <br>
 
-대표적인 ApplicationContext와 해당 ApplicationContext가 가지고 있는 Bean 설정파일
-- ClassPathXmlApplicationContext(XML)
-- AnnotationConfigApplicationContext(Java)
+**대표적인 ApplicationContext와 해당 ApplicationContext가 가지고 있는 Bean 설정파일**
+* ClassPathXmlApplicationContext(XML)
+* AnnotationConfigApplicationContext(Java)
+<br>
+<br>
 
-스프링 Ioc 컨테이너는 빈 설정 파일이 필요하다. 다음은 아주 고전적인 스프링 설정 파일이다.
+스프링 Ioc 컨테이너는 Bean 설정 파일이 필요하다. Bean을 ApplicationText에 등록하기 위해 필요한 설정 파일이다.
+
+다음은 아주 고전적인 xml 기반 스프링 설정 파일이다.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?> 
@@ -125,7 +132,7 @@ ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 �
 그런데 이렇게 일일히 빈을 등록하는 것은 아주 비효율적이고 힘든 방법이다.
 따라서 컴포넌트 스캔이 등장하였다. package를 지정하여 그 패키지부터 스캐닝을 하여 빈을 등록하는 방법이다.
 기본적으로 @Component라는 애노테이션을 쓸 수 있고 이를 확장한 @Service, @Repository 등도 있다.
-그 애노테이션을 쓰고 @Autowired, @Inject 등으로 빈을 등록해줄 수 있다. (스프링 2.5 버전부터 가능)
+그 애노테이션과 함께 @Autowired, @Inject 등을 써야 빈을 등록해줄 수 있다. (애노테이션 기반의 빈 등록 방식 - 스프링 2.5 버전부터 가능)
 
 <br>
 <br>
@@ -144,8 +151,9 @@ ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 �
 
 <br>
 <br>
-java configuration으로 하는 방법도 있다. 설정할 시 유연하고 확장성이 있다.
 
+java configuration으로 하는 방법도 있다. xml 기반 설정보다 java로 설정할 시 좀 더 유연하고 확장성이 있는 코딩이 가능하다.
+<br>
 ```java
 @Configuration
 public class ApplicationConfig{
@@ -174,6 +182,7 @@ public class DemoApplication(){
     }
 }
 ```
+<br>
 
 ```java
 @Configuration
@@ -202,24 +211,6 @@ public class DemoApplication(){
     }
 }
 ```
-
-@Autowired
-
-1. 생성자 - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함
-2. 세터
-3. 필드
-
-빈 라이프사이클
-- 빈 포스트 프로세서라는 라이프사이클 인터페이스의 구현체에 의해 동작
-- 빈 포스트 프로세서 ? 
-	- 빈 이니셜라이즈 라이프사이클 이전 혹은 이후에 작업을 할수있는 또다른 라이프사이클 콜백
-
-@PostConstruct
-
-빈 이니셜라이즈 전에 
-AutoWiredSnnotationBeanPostProcessor
-라는 클래스가 
-빈을 찾아서 주입해준다!!  
 
 
 
