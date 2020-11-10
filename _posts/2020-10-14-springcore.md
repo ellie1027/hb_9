@@ -6,8 +6,10 @@ comments: true
 ---
 
 **references; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)**
+
 <br>
 <br>
+
 ## 학습 목표
 * 스프링 프레임워크의 핵심 기술 IoC, AOP, PSA를 이해한다.
 * 스프링 프레임워크 IoC 컨테이너의 다양한 기능을 사용할 수 있다.
@@ -16,6 +18,7 @@ comments: true
 * 그밖에 다양한 스프링 핵심 기술을 이해하고 활용할 수 있다.
 <br>
 <br>
+
 ## 1. Spring IoC 컨테이너와 빈
 
 Inversion of Control 
@@ -45,7 +48,14 @@ class BookService {
 스프링 IoC 컨테이너
 : 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.<br>
 
-
+<br>
+<br>
+스프링 IoC 컨테이너의 역할
+* 빈 인스턴스 생성
+* 의존 관계 설정
+* 빈 제공
+<br>
+<br>
 Bean
 : 스프링 IoC 컨테이너가 관리하는 객체.<br>
 
@@ -73,12 +83,15 @@ BeanFactory
 <br>
 <br>
 
+그런데 실질적으로 개발자들이 많이 쓰는 것은 BeanFactory를 상속받아 쓰는 ApplicationContext다.
 
-    
-ApplicationContext (BeanFactory를 상속받음)<br>
-IoC의 기능을 가지고 있으면서도, EventPublisher, EnviromentCapable, HierarchicalBeanFactory, ListableBeanFactory, MessageSource(메세지 다국화),
+<br>
+<br>
+
+ApplicationContext
+: IoC의 기능을 가지고 있으면서도, EventPublisher, EnviromentCapable, HierarchicalBeanFactory, ListableBeanFactory, MessageSource(메세지 다국화),
 ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 파일, 웹에 있는 파일 등을 리소스라고 하는데 이것들을 읽어오는 기능), ResourcePatternResolver 기능도 가지고 있다.
-빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스.
+빈팩토리에 비해 다양한 기능을 추가로 더 가지고 있는 인터페이스. 
 
 <br>
 <br>
@@ -86,6 +99,109 @@ ResourceLoader(classpath에 있는 특정한 파일, 파일시스템에 있는 �
 대표적인 ApplicationContext와 해당 ApplicationContext가 가지고 있는 Bean 설정파일
 - ClassPathXmlApplicationContext(XML)
 - AnnotationConfigApplicationContext(Java)
+
+스프링 Ioc 컨테이너는 빈 설정 파일이 필요하다. 다음은 아주 고전적인 스프링 설정 파일이다.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:beans="http://www.w3.org/2001/xmlschema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">   					   
+	
+    <bean id="bookService"
+          class="mypackage.name.BookService">
+        <property name="bookRepository" ref="bookRepository"></property>    <!-- ref : 다른 빈을 참조할 때 쓰는 것. 항상 빈의 id가 와야 한다. -->
+    </bean> 
+   
+    <bean id="bookRepository"
+          class="mypackage.name.BookRepository">
+    </bean> 
+</beans:beans>
+```
+<br>
+<br>
+
+그런데 이렇게 일일히 빈을 등록하는 것은 아주 비효율적이고 힘든 방법이다.
+따라서 컴포넌트 스캔이 등장하였다. package를 지정하여 그 패키지부터 스캐닝을 하여 빈을 등록하는 방법이다.
+기본적으로 @Component라는 애노테이션을 쓸 수 있고 이를 확장한 @Service, @Repository 등도 있다.
+그 애노테이션을 쓰고 @Autowired, @Inject 등으로 빈을 등록해줄 수 있다. (스프링 2.5 버전부터 가능)
+
+<br>
+<br>
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:beans="http://www.w3.org/2001/xmlschema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"> 
+
+    <context:component-scan base-package="${myPackageName}"></context:component-scan>
+
+</beans:beans>
+```
+
+<br>
+<br>
+java configuration으로 하는 방법도 있다. 설정할 시 유연하고 확장성이 있다.
+
+```java
+@Configuration
+public class ApplicationConfig{
+        
+    @Bean
+    public BookRepository bookRepository(){
+        return new BookRepository();
+    }
+    
+    @Bean
+    public BookService bookService(){
+        //의존성 주입
+        BookService bookService = new BookService();    
+        bookService.setBookRepository(bookRepository());
+        return bookService;
+    }
+
+}
+
+public class DemoApplication(){
+   
+    public static void main(String[] args){
+        ApplicationContext context = 
+            new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        //ApplicationConfig.class 파일을 자바 설정 파일로 사용하겠다는 의미         
+    }
+}
+```
+
+```java
+@Configuration
+@ComponentScan(basePackageClasses = DemoApplication.class) //이 클래스가 위치한 곳부터 컴포넌트 스캐닝을 하라는 뜻. 좀 더 type-safe한 방법.
+public class ApplicationConfig{
+        
+    @Bean
+    public BookRepository bookRepository(){
+        return new BookRepository();
+    }
+    
+    @Bean
+    public BookService bookService(){
+        //의존성 주입
+        BookService bookService = new BookService();    
+        bookService.setBookRepository(bookRepository());
+        return bookService;
+    }
+
+}
+
+@SpringBootApplication 
+//스프링 부트를 사용할 시, 이 애노테이션을 붙이면 ApplicationContext를 새로 생성할 필요가 없다. ApplicationConfig 파일을 만들 필요도 없다. 이 파일 자체가 설정 파일이기 때문이다.
+public class DemoApplication(){
+    public static void main(String[] args){
+    }
+}
+```
 
 @Autowired
 
