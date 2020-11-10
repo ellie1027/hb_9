@@ -49,7 +49,8 @@ class BookService {
 : 'Bean'들을 담고 있는 IoC 기능을 가지고 있는 컨테이너.<br>
 
 <br>
-스프링 IoC 컨테이너의 역할
+
+**스프링 IoC 컨테이너의 역할**
 * 빈 인스턴스 생성
 * 의존 관계 설정
 * 빈 제공
@@ -208,6 +209,7 @@ public class ApplicationConfig{
 //스프링 부트를 사용할 시, 이 애노테이션을 붙이면 ApplicationContext를 새로 생성할 필요가 없다. ApplicationConfig 파일을 만들 필요도 없다. 이 파일 자체가 설정 파일이기 때문이다.
 public class DemoApplication(){
     public static void main(String[] args){
+
     }
 }
 ```

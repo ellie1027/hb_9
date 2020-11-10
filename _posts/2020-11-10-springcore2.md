@@ -130,27 +130,36 @@ public class BookService{
     
 }
 
-
 ```
 
 **같은 타입의 빈이 여러 개 일때**
-    * @Primary - 무조건 이 Bean을 주입해라! 좀 더 type safe한 방법.
-    * 해당 타입의 빈 모두 주입 받기
+    * @Primary - 무조건 이 Bean을 주입해줘! 좀 더 type safe한 방법.
     * Qualifier(빈 이름)
+    * 해당 타입의 빈 모두 주입 받기
 
+<br>
 
+**그렇다면 이런 동작을 하는 원리는 무엇일까?**
+* Bean Post Processor 라는 'lifeCycle Interface' 의 구현체에 의해 동작
+<br>
 
-빈 라이프사이클
-- 빈 포스트 프로세서라는 라이프사이클 인터페이스의 구현체에 의해 동작
-- 빈 포스트 프로세서 ? 
-	- 빈 이니셜라이즈 라이프사이클 이전 혹은 이후에 작업을 할수있는 또다른 라이프사이클 콜백
+Bean Post Processor 
+:빈을 만든 다음(new bean instance를 initialize 후) 이전 혹은 이후에 부가적인 작업을 할수있는 또다른 라이프사이클 콜백
 
-@PostConstruct
+<br>
 
-빈 이니셜라이즈 전에 
-AutoWiredSnnotationBeanPostProcessor
-라는 클래스가 
-빈을 찾아서 주입해준다!!  
+initialization
+:해당 Bean이 만들어진 후 해야 할 일이다. @PostConstruct 같은 애노테이션을 붙여서 정의할 수 있다. 
 
+<br>
+
+>결국 @Autowired 라는 애노테이션을 붙였을 때, Bean이 자동으로 주입되는 이유는
+>Bean initiallize 전 **AutoWiredAnnotationBeanPostProcessor 클래스**가 Bean을 찾아서 주입해주기 때문이다.
+
+<br>
+
+**AutowiredAnnotationBeanPostProcessor extends BeanPostProcessor**
+    * 스프링이 제공하는 @Autowired 와 @Value 애노테이션 그리고 JSR-330의 @Inject 애노테이션을 지원하는 애노테이션 처리기
+    * Bean으로 등록이 되어있어서, BeanPostProcessor가 AutowiredAnnotationBeanPostProcessor
 
 
