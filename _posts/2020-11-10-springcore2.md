@@ -23,11 +23,14 @@ comments: true
 
 * BookService와 BookRepository가 있다고 가정해보자. BookService에 BookRepository의 의존성 주입을 하려면 세 가지 방법이 있다.
 <br>
+<br>
+
 **사용할 수 있는 위치** 
     * 생성자(스프링 4.3부터는 생략 가능) - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함
     * 세터
     * 필드
 <br>    
+<br>
 
 ```java
 @Repository
@@ -72,6 +75,8 @@ public class BookService{
     * 빈 이름으로 시도
     * 같은 이름의 빈 찾으면 해당 빈 사용
     * 같은 이름 못 찾으면 실패
+<br>
+<br>
     
 ```java
 @Repository
@@ -91,7 +96,6 @@ public class BookService{
     
 }
 ```
-<br>
 
 ```java
 @Repository
@@ -132,24 +136,25 @@ public class BookService{
 
 ```
 
-**같은 타입의 빈이 여러 개 일때**
-    * @Primary - 무조건 이 Bean을 주입해줘! 좀 더 type safe한 방법.
-    * Qualifier(빈 이름)
-    * 해당 타입의 빈 모두 주입 받기
+**같은 타입의 빈이 여러 개 일때**<br>
+    * @Primary - 무조건 이 Bean을 주입해줘! 좀 더 type safe한 방법.<br>
+    * Qualifier(빈 이름)<br>
+    * 해당 타입의 빈 모두 주입 받기<br>
 
 <br>
 
 **그렇다면 이런 동작을 하는 원리는 무엇일까?**
 * Bean Post Processor 라는 'lifeCycle Interface' 의 구현체에 의해 동작
+
 <br>
 
 Bean Post Processor 
-:빈을 만든 다음(new bean instance를 initialize 후) 이전 혹은 이후에 부가적인 작업을 할수있는 또다른 라이프사이클 콜백
+: 빈을 만든 다음(new bean instance를 initialize 후) 이전 혹은 이후에 부가적인 작업을 할수있는 또다른 라이프사이클 콜백
 
 <br>
 
 initialization
-:해당 Bean이 만들어진 후 해야 할 일이다. @PostConstruct 같은 애노테이션을 붙여서 정의할 수 있다. 
+: 해당 Bean이 만들어진 후 해야 할 일이다. @PostConstruct 같은 애노테이션을 붙여서 정의할 수 있다. 
 
 <br>
 
@@ -158,8 +163,8 @@ initialization
 
 <br>
 
-**AutowiredAnnotationBeanPostProcessor extends BeanPostProcessor**
-    * 스프링이 제공하는 @Autowired 와 @Value 애노테이션 그리고 JSR-330의 @Inject 애노테이션을 지원하는 애노테이션 처리기
-    * Bean으로 등록이 되어있어서, BeanPostProcessor가 AutowiredAnnotationBeanPostProcessor
+**AutowiredAnnotationBeanPostProcessor extends BeanPostProcessor**<br>
+    * 스프링이 제공하는 @Autowired 와 @Value 애노테이션 그리고 JSR-330의 @Inject 애노테이션을 지원하는 애노테이션 처리기<br>
+    * Bean으로 등록이 되어있어서, BeanPostProcessor가 AutowiredAnnotationBeanPostProcessor<br> 
 
 
