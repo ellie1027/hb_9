@@ -25,10 +25,10 @@ comments: true
 <br>
 <br>
 
-**사용할 수 있는 위치** 
-    * 생성자(스프링 4.3부터는 생략 가능) - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함
-    * 세터
-    * 필드
+**사용할 수 있는 위치**<br> 
+    * 생성자(스프링 4.3부터는 생략 가능) - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함<br> 
+    * 세터<br> 
+    * 필드<br> 
 <br>    
 <br>
 
@@ -165,6 +165,6 @@ initialization
 
 **AutowiredAnnotationBeanPostProcessor extends BeanPostProcessor**<br>
     * 스프링이 제공하는 @Autowired 와 @Value 애노테이션 그리고 JSR-330의 @Inject 애노테이션을 지원하는 애노테이션 처리기<br>
-    * Bean으로 등록이 되어있어서, BeanPostProcessor가 AutowiredAnnotationBeanPostProcessor<br> 
+    * Bean으로 등록이 되어있다. 따라서 BeanPostProcessor에서 AutowiredAnnotationBeanPostProcessor를 찾아서 작동시키는 것이다.<br> 
 
 
