@@ -2,8 +2,8 @@ module.exports = {
   title: `HB9's BLOG`,
   description: `Blog posted about ...`,
   author: `HB9`,
-  introduction: `아는거 모르는거 다 적어버리기`,
-  siteUrl: `https://hb9.github.io/`, // Your blog site url
+  introduction: `나를 위한 기술 기록 저장소`,
+  siteUrl: `https://hb-9.netlify.app/`, // Your blog site url
   social: {
     twitter: ``, // Your Twitter account
     github: `https://github.com/hanbyul9`, // Your GitHub account
@@ -15,7 +15,7 @@ module.exports = {
   keywords: [`blog`],
   comment: {
     disqusShortName: '', // Your disqus-short-name. check disqus.com.
-    utterances: 'hanbyul9/hb9', // Your repository for archive comment
+    utterances: 'hanbyul9/hb_9', // Your repository for archive comment
   },
   configs: {
     countOfInitialPost: 10, // Config your initial count of post

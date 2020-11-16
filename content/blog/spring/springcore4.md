@@ -1,5 +1,5 @@
 ---
-title: '[스프링 코어] Inversion of Control 컨테이너 #3'
+title: '[스프링 코어] Inversion of Control 컨테이너 #4'
 date: 2020-11-16 16:21:13
 category: 'spring'
 draft: false

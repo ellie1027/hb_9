@@ -1,13 +1,11 @@
 ---
-title: 'Spring Core - IoC Container (2)'
+title: '[스프링 코어] Inversion of Control 컨테이너 #2'
 date: 2020-11-06 16:21:13
 category: 'spring'
 draft: false
 ---
 
-**references; Inflearn - 스프링 프레임워크 핵심 기술 (백기선)**
-
-<br>
+- **REFERENCES** : [인프런 <스프링 프레임워크 핵심 기술> (백기선)](https://www.inflearn.com/course/spring-framework_core/)
 <br>
 
 ## 학습 목표
@@ -19,19 +17,18 @@ draft: false
 <br>
 <br>
 
-## 1. Spring IoC 컨테이너와 빈 (3) : @Autowired
+## 1) @Autowired
 
 * BookService와 BookRepository가 있다고 가정해보자. BookService에 BookRepository의 의존성 주입을 하려면 세 가지 방법이 있다.
 <br>
 <br>
 
-**사용할 수 있는 위치**<br>
+**사용할 수 있는 위치**
     <br> 
-    * 생성자(스프링 4.3부터는 생략 가능) - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함<br> 
-    * 세터<br> 
-    * 필드<br> 
-    
-<br>    
+
+    * 생성자(스프링 4.3부터는 생략 가능) - 빈을 만들때도 관여하기 때문에 optional한 설정을 못함
+    * 세터 
+    * 필드
 <br>
 
 ```java
@@ -139,8 +136,8 @@ public class BookService{
 ```
 
 **같은 타입의 빈이 여러 개 일때**<br>
-    * @Primary - 무조건 이 Bean을 주입해줘! 좀 더 type safe한 방법.<br>
-    * Qualifier(빈 이름)<br>
+    * **@Primary** - 이 애노테이션을 쓰면 무조건  Bean을 주입해야 한다. 다른 방법에 비해 좀 더 type safe한 방법이다.<br>
+    * **Qualifier(빈 이름)**<br>
     * 해당 타입의 빈 모두 주입 받기<br>
 
 <br>
@@ -150,12 +147,12 @@ public class BookService{
 
 <br>
 
-Bean Post Processor 
-: 빈을 만든 다음(new bean instance를 initialize 후) 이전 혹은 이후에 부가적인 작업을 할수있는 또다른 라이프사이클 콜백
+**Bean Post Processor** 
+: 빈을 만든 다음(로운 bean instance를 initialize  후) 이전 혹은 이후에 부가적인 작업을 할수있는 또다른 라이프사이클 콜백
 
 <br>
 
-initialization
+**initialization이란?**
 : 해당 Bean이 만들어진 후 해야 할 일이다. @PostConstruct 같은 애노테이션을 붙여서 정의할 수 있다. 
 
 <br>
