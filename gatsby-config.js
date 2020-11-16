@@ -1,6 +1,7 @@
 const metaConfig = require('./gatsby-meta-config')
 
 module.exports = {
+  pathPrefix: "hb9",
   siteMetadata: metaConfig,
   plugins: [
     {
