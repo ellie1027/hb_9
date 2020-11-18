@@ -1,6 +1,6 @@
 ---
-title: 'rest api + ajax + jwt + spring security (2)'
-date: 2020-11-06 16:21:13
+title: '[스프링 시큐리티] JWT TOKEN을 사용한 SPRING SECURITY 시스템 구현 #2'
+date: 2020-11-04 16:21:13
 category: 'security'
 draft: false
 ---
@@ -9,9 +9,9 @@ draft: false
 rest api 기반의 ajax를 쓰는 프로젝트에서 jwt 토큰을 사용하여 spring security 구현
 
 **세부목표**<br>
-1. 일반회원과 매니저가 나뉘도록 권한 설정<br>
-2. jwt 토큰을 사용한 로그인<br>
-
+1. jwt 토큰을 사용한 로그인<br>
+2. 일반회원과 매니저가 나뉘도록 권한 설정<br>
+3. 메뉴별 권한 다르게 설정<br>
 <br>
 
 ## 목차
@@ -142,6 +142,6 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 <br>
 <br>
 이제 설정은 끝났다.<br> 
-다음 포스팅에서는 스프링 시큐리티에 대한 간략한 개요와 각각의 보안방식의 장단점과 설정방식에 대하여 자세히 알아보자.
+다음 포스팅에서는 스프링 시큐리티에 대한 간략한 개요와 인증, 인가의 개념, 그리고 인증 매커니즘과 그에 따른 설정방식에 대하여 알아보자.
 <br>
 <br>
