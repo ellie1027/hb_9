@@ -1,6 +1,6 @@
 ---
 title: '[스프링 코어] Inversion of Control 컨테이너 #4'
-date: 2020-11-19 16:21:13
+date: 2020-11-19 17:21:13
 category: 'spring'
 draft: false
 ---
