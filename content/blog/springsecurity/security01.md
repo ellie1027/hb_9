@@ -17,8 +17,8 @@ rest api 기반의 ajax를 쓰는 프로젝트에서 jwt 토큰을 사용하여 
 ## 목차
 1. **java configuration**<br>
 2. spring security configuration<br>
-3. spring security란??<br>
-4. spring security - basic authentication, form based authentication<br>
+3. spring security - 인증,인가,인증방식<br>
+4. spring security - 내부 인증 과정<br>
 5. spring security - csrf<br>
 6. spring security - jwt toekn<br> 
 <br>

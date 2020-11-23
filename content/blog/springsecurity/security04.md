@@ -1,8 +1,8 @@
 ---
 title: '[스프링 시큐리티] JWT TOKEN을 사용한 SPRING SECURITY 시스템 구현 #4'
-date: 2020-11-18 16:21:13
+date: 2020-11-20 16:21:13
 category: 'security'
-draft: true
+draft: false
 ---
 
 ## GOAL
@@ -16,9 +16,10 @@ rest api 기반의 ajax를 쓰는 프로젝트에서 jwt 토큰을 사용하여 
 ## 목차
 1. java configuration<br>
 2. spring security configuration<br>
-3. **spring security란??**<br>
-4. spring security - jwt token을 이용한 인증<br> 
-5. csrf
+3. spring security - 인증,인가,인증방식<br>
+4. **spring security - 내부 인증 과정**<br>
+5. spring security - csrf<br>
+6. spring security - jwt toekn<br> 
 <br>
 <br>
 
@@ -34,55 +35,76 @@ rest api 기반의 ajax를 쓰는 프로젝트에서 jwt 토큰을 사용하여 
 
 ### [3] 인증 과정<br><br>
 
+다음은 스프링 시큐리티의 인증이 완료되는 과정을 나타낸 그림이다.<br><br>
 
- 
 ![](./images/springsecurity_basicauth_02.png)
 
 <br>
 
->**SecurityContextHolder** : 쓰레드 로컬에 SecurityContext를 보관한다.<br>
->**SecurityContext** : 인증 정보(Authentication)를 보관하는 일종의 저장소. 현재 사용자에 대한 Authentication 객체를 구할때 SecretContext로 부터 구한다.<br>
->**Authentication** : principal(인증 주체)를 확인하고 정보를 담는다. 인증 요청 시, 요청 정보를 담는다.<br>
->**AuthenticationManager** : 인증 처리 후, 인증 정보를 담고 있는 Authentication 객체를 리턴한다. 스프링 시큐리티는 리턴한 Authentication 객체를 SecurityContext에 보관한다.<br>
->**AuthenticationProvider** : 유저가 입력한 username과 password를 DB에서 가져온 사용자의 정보(UserDetailsService)를 비교해주는 인터페이스.<br>
->**GrantedAuthority** : principal(인증 주체)에 부여된 어플리케이션 차원의 권한<br>
->**UserDetails** : 데이터베이스에서 가져온 데이터로 인증을 구축하는데 중요한 정보를 제공.<br>
->**UserDetailsService** : String 타입의 usrename(또는 인증된 ID 등)으로 정보를 가져오는 UserDetails를 생성.<br>
-
-
-
-### [2] UserDetails
-
-스프링 시큐리티에서의 실제로 데이터베이스에 저장된 유저 정보를 검색할 때 이용하는 인터페이스다.<br>
-
-> username(must be unique)<br>
-> password(must be encoded)<br>
-> roles(ROLE_NAME)<br>
-> authorities(permissions)<br>
-> ...
+정말 간략하게 말한다면 
+1) 사용자로부터 받은 리퀘스트를 <code>Authentication Filter</code> (List) 를 거쳐 인증을 완료한 후(1~9)
+2) 생성된 <code>Authentication</code> 객체를 <code>SecurityContext</code>에 저장하는 것이다.(10)
+ 
+✨ 사용자는 <code>SecurityContext</code>에 저장된 인증정보를 필요할 때마다 꺼내어 사용할 수 있다.
 
 <br>
-UserDetails는 스프링 시큐리티의 핵심 인터페이스이다.
+
+<code> **[1] AuthenticationFilter</code>가 어떤 순서로 동작하는지 더 자세하게 파고들어보자.** <br><br>
+클라이언트로 부터 온 <code>Request</code>는 먼저 <code>ApplicationFilter</code>를 돈 후 <code>springSecurityFilterChain</code>을 거치게 된다.
+<br>
+<code>springSecurityFilterChain</code>은 **'스프링 시큐리티의 Filter 리스트'**를 가지고 있는 객체이다. 
 <br><br>
-스프링 시큐리티는 UserDetails 인터페이스를 사용해 데이터베이스에서 가져온 유저 정보로 SecurityContextHolder를 구축한다.
-기본적으로 유저이름, 패스워드, 롤, 권한 등의 필드가 있다.(부가적인 유저 정보를 담으려면 User 클래스를 상속받아 새로운 클래스를 만들자.)
-<br><br>
-UserDetailsService 인터페이스에는 단 하나의 메소드가 있는데, (대개)username을 매개변수로 받아서 유저 정보를 가져오는 메소드이다.
-이 메소드는 스프링 시큐리티 내에서 사용자의 정보를 가져오는 가장 일반적인 방법이며, 사용자 정보가 필요할 때마다 프레임워크 전체에서 사용될 수 있다.
+원래 스프링 프레임워크가 가지고 있는 필터가 아니기 때문에 사용하려면 <code>DelegatingFilterProxy</code> 클래스를 <code>springSecurityFilterChain</code>라는 이름의 Bean으로 등록을 시켜주어야 한다.
+<br>
+<br>
+필터라는 것은 무언가를 거른다는 뜻이다. 스프링 시큐리티 필터 체인은 사용자의 리퀘스트를 가지고 **순서대로** 필터 리스트를 돈다.
+필터 중 하나에 인증이 되었다면 인증이 완료된 것이고, 마지막까지 인증이 되지 않았다면 인증 실패라고 여긴다. 따라서 필터의 순서를
+아는 것도 중요하다.
+<br>
 
-```java
-package org.springframework.security.core.userdetails;
+<details>
+    <summary>더보기 - Spring Security Standard Filter Aliases And Ordering </summary>
 
-public interface UserDetailsService {
-    UserDetails loadUserByUsername(String var1) throws UsernameNotFoundException;
-}
-```
+![](./images/springsecurity_filterlist_05.png)
+</details>  
+
+<br>
+
+<details>
+    <summary>더보기 - [표] 주요 스프링 시큐리티 필터의 용도에 대한 간략한 설명</summary>
+
+| **필터 이름**                         | **하는 일**                              |
+|---------------------------------|------------------------------------|    
+|SecurityContextPersistenceFilter | SecurityContext 가 없으면 만들어주는 필터 |
+|HeaderWriterFilter               | 응답(Response)에 Security와 관련된 헤더 값을 설정해주는 필터 |
+|CsrfFilter | CSRF 공격을 방어하는 필터 |
+|LogoutFilter| 로그아웃 요청을 처리하는 필터 |
+|BasicAuthenticationFilter | HttpBasic Authentication을  처리하는 필터 |
+|UserNamePasswordAuthenticationFilter | form-based Authentication을 처리하는 필터 |
+|RequestCacheAwareFilter | 인증 후 원래 Request 정보로 재구성하는 필터 |
+|AnonymousAuthenticationFilter | 이 필터에 올 때까지 사용자 정보가 인증되지 않았다면 이 요청은 익명의 사용자가 보낸 것으로 판단함(Authentication 객체를 새로 생성)  |
+|SessionManagementFilter | 세션 변조 공격 방지, 유효하지 않은 세션으로 접근했을 때 URL 핸들링, 세션 생성 전략 설정, 최대 세션 수 설정 |
+|ExceptionTranslationFilter | 앞 선 필터에서 예외가 발생할 경우 캐치하여 처리하는 필터 |
+|FilterSecurityInterceptor | 인가(Authorization)를 결정하는 AccessDecisionManager에게 접근 권한이 있는지 확인하고 처리하는 필터 |
+
+</details>
+
+<br>
+
+>**springSecurityFilterChain** : 스프링 시큐리티 필터 리스트를 가지고 있는 객체로 필터 리스트를 순회하며 필터링을 실시.
+
+<br>
+
+    
+
+
+<br>
 <br>
 
 
 
 
-<br>
+
 
 
 
